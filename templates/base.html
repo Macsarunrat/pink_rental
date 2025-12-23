@@ -10,8 +10,6 @@
     <style>
         :root {
             --bs-primary: #ff69b4; /* Hot Pink */
-            --bs-primary-rgb: 255, 105, 180;
-            --bs-secondary: #ffc0cb; /* Soft Pink */
             --bs-body-bg: #fff0f5; /* Lavender Blush Background */
             --bs-body-font-family: 'Kanit', sans-serif;
         }
@@ -43,6 +41,14 @@
             color: white !important;
             font-weight: 600;
         }
+        
+        /* ปรับสีปุ่มเมนูบนมือถือให้เป็นสีขาว */
+        .navbar-toggler {
+            border-color: rgba(255,255,255,0.8) !important;
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+        }
 
         .stat-card {
             transition: transform 0.3s;
@@ -56,13 +62,18 @@
 
     <nav class="navbar navbar-expand-lg mb-4">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'dashboard' %}">🎀 Pink Rental</a>
-            <div class="collapse navbar-collapse">
-                <ul class="navbar-nav ms-auto">
+            <a class="navbar-brand" href="{% url 'dashboard' %}">🎀 zm.fashiongirlswrp</a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto text-center mt-3 mt-lg-0">
                     <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">หน้าหลัก</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'dress_list' %}">สต็อกชุด</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'customer_list' %}">ลูกค้า</a></li>
-                    <li class="nav-item"><a class="nav-link btn btn-light text-primary ms-2 px-3" href="{% url 'add_rental' %}">+ เช่าใหม่</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-light text-primary ms-lg-2 mt-2 mt-lg-0 px-3 rounded-pill" href="{% url 'add_rental' %}">+ เช่าใหม่</a></li>
                 </ul>
             </div>
         </div>
@@ -71,6 +82,8 @@
     <div class="container pb-5">
         {% block content %}{% endblock %}
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

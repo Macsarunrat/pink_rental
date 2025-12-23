@@ -73,3 +73,12 @@ def update_rental_status(request, rental_id, status):
         rental.status = status
         rental.save()
     return redirect('dashboard')
+def add_customer(request):
+    if request.method == "POST":
+        form = CustomerForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('customer_list') # บันทึกเสร็จเด้งกลับมารายชื่อ
+    else:
+        form = CustomerForm()
+    return render(request, 'form.html', {'form': form, 'title': 'เพิ่มลูกค้าใหม่'})
