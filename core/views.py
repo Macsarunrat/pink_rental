@@ -82,3 +82,20 @@ def add_customer(request):
     else:
         form = CustomerForm()
     return render(request, 'form.html', {'form': form, 'title': 'เพิ่มลูกค้าใหม่'})
+
+def edit_dress(request, dress_id):
+    dress = get_object_or_404(Dress, id=dress_id)
+    if request.method == "POST":
+        # instance=dress บอก Django ว่าเป็นการแก้ของเดิม ไม่ใช่สร้างใหม่
+        form = DressForm(request.POST, request.FILES, instance=dress) 
+        if form.is_valid():
+            form.save()
+            return redirect('dress_list')
+    else:
+        form = DressForm(instance=dress)
+    return render(request, 'form.html', {'form': form, 'title': 'แก้ไขข้อมูลชุด'})
+
+def delete_dress(request, dress_id):
+    dress = get_object_or_404(Dress, id=dress_id)
+    dress.delete()
+    return redirect('dress_list')
