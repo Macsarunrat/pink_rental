@@ -31,10 +31,7 @@
         <tbody>
           {% for rental in upcoming_rentals %}
           <tr>
-            <td>
-              {{ rental.start_date|date:"d M" }} - {{ rental.end_date|date:"d M"
-              }}
-            </td>
+              <td>{{ rental.start_date|date:"d M" }} - {{ rental.end_date|date:"d M" }}</td>
             <td>{{ rental.dress.name }}</td>
             <td>{{ rental.customer.name }}</td>
             <td>
