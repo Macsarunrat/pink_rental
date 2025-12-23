@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pink Rental System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bs-primary: #ff69b4; /* Hot Pink */
+            --bs-primary-rgb: 255, 105, 180;
+            --bs-secondary: #ffc0cb; /* Soft Pink */
+            --bs-body-bg: #fff0f5; /* Lavender Blush Background */
+            --bs-body-font-family: 'Kanit', sans-serif;
+        }
+        
+        body { background-color: var(--bs-body-bg); }
+        
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.15);
+        }
+        
+        .btn-primary {
+            background-color: var(--bs-primary);
+            border-color: var(--bs-primary);
+        }
+        
+        .btn-primary:hover {
+            background-color: #d14785;
+            border-color: #d14785;
+        }
+
+        .navbar {
+            background: linear-gradient(45deg, #ff69b4, #ffb6c1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand, .nav-link {
+            color: white !important;
+            font-weight: 600;
+        }
+
+        .stat-card {
+            transition: transform 0.3s;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'dashboard' %}">🎀 Pink Rental</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">หน้าหลัก</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'dress_list' %}">สต็อกชุด</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'customer_list' %}">ลูกค้า</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-light text-primary ms-2 px-3" href="{% url 'add_rental' %}">+ เช่าใหม่</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container pb-5">
+        {% block content %}{% endblock %}
+    </div>
+
+</body>
+</html>

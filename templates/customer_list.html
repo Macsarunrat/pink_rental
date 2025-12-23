@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card p-4">
+    <h2 class="text-primary mb-4">👩‍🦰 รายชื่อลูกค้า</h2>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>ชื่อลูกค้า</th>
+                    <th>เบอร์โทร</th>
+                    <th>Line ID</th>
+                    <th>วันที่สมัคร</th>
+                    <th>จัดการ</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for customer in customers %}
+                <tr>
+                    <td class="fw-bold">{{ customer.name }}</td>
+                    <td>{{ customer.phone }}</td>
+                    <td>
+                        {% if customer.line_id %}
+                            <span class="badge bg-success"><i class="bi bi-line"></i> {{ customer.line_id }}</span>
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>{{ customer.created_at|date:"d/m/Y" }}</td>
+                    <td>
+                        <a href="{% url 'customer_history' customer.id %}" class="btn btn-sm btn-outline-primary rounded-pill">
+                            ดูประวัติเช่า
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="5" class="text-center">ยังไม่มีข้อมูลลูกค้า</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card p-4">
+    <h3>ประวัติการเช่า: {{ customer.name }}</h3>
+    <p>เบอร์โทร: {{ customer.phone }} | Line: {{ customer.line_id }}</p>
+    <hr>
+    <ul>
+        {% for rental in rentals %}
+        <li>
+            <strong>{{ rental.dress.name }}</strong> 
+            (฿{{ rental.total_price }}) - 
+            {{ rental.start_date }} ถึง {{ rental.end_date }}
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

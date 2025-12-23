@@ -1,0 +1,113 @@
+{% extends 'base.html' %} {% load humanize %} {% block content %}
+<div class="row mb-4">
+  <div class="col-md-6 mb-3">
+    <div class="card stat-card bg-white p-4">
+      <h5 class="text-muted">รายได้สัปดาห์นี้</h5>
+      <h2 class="text-primary fw-bold">฿{{ weekly_income|intcomma }}</h2>
+    </div>
+  </div>
+  <div class="col-md-6 mb-3">
+    <div class="card stat-card bg-white p-4">
+      <h5 class="text-muted">รายได้เดือนนี้</h5>
+      <h2 class="text-primary fw-bold">฿{{ monthly_income|intcomma }}</h2>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-8">
+    <div class="card p-4 mb-4">
+      <h4 class="mb-3">📅 คิวเช่าชุดเร็วๆ นี้</h4>
+      <table class="table table-hover align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>วันที่เช่า-คืน</th>
+            <th>ชุด</th>
+            <th>ลูกค้า</th>
+            <th>สถานะ</th>
+            <th>จัดการ</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for rental in upcoming_rentals %}
+          <tr>
+            <td>
+              {{ rental.start_date|date:"d M" }} - {{ rental.end_date|date:"d M"
+              }}
+            </td>
+            <td>{{ rental.dress.name }}</td>
+            <td>{{ rental.customer.name }}</td>
+            <td>
+              <span
+                class="badge {% if rental.status == 'BOOKED' %}bg-warning{% elif rental.status == 'ACTIVE' %}bg-info{% else %}bg-success{% endif %}"
+              >
+                {{ rental.get_status_display }}
+              </span>
+            </td>
+            <td>
+              {% if rental.status == 'BOOKED' %}
+              <a
+                href="{% url 'update_rental_status' rental.id 'ACTIVE' %}"
+                class="btn btn-sm btn-outline-info rounded-pill"
+                >รับชุดไปแล้ว</a
+              >
+              {% elif rental.status == 'ACTIVE' %}
+              <a
+                href="{% url 'update_rental_status' rental.id 'RETURNED' %}"
+                class="btn btn-sm btn-outline-success rounded-pill"
+                >คืนชุดแล้ว</a
+              >
+              {% else %}
+              <span class="text-muted small"
+                ><i class="bi bi-check-circle"></i> เสร็จสิ้น</span
+              >
+              {% endif %}
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="5" class="text-center">ไม่มีคิวเร็วๆ นี้</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card p-4">
+      <h4 class="mb-3">💰 กำไรรายชุด</h4>
+      <div style="max-height: 400px; overflow-y: auto">
+        {% for dress in dresses %}
+        <div class="d-flex align-items-center mb-3 border-bottom pb-2">
+          {% if dress.image %}
+          <img
+            src="{{ dress.image.url }}"
+            class="rounded-circle me-2"
+            width="40"
+            height="40"
+            style="object-fit: cover"
+          />
+          {% endif %}
+          <div class="flex-grow-1">
+            <div class="fw-bold">{{ dress.name }}</div>
+            <small class="text-muted"
+              >ทุน: {{ dress.cost_price|intcomma }}</small
+            >
+          </div>
+          <div class="text-end">
+            {% with p=dress.profit %}
+            <span
+              class="fw-bold {% if p >= 0 %}text-success{% else %}text-danger{% endif %}"
+            >
+              {{ p|intcomma }}
+            </span>
+            {% endwith %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

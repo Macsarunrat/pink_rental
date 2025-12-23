@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card p-5">
+            <h3 class="mb-4 text-center text-primary">{{ title }}</h3>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill py-2">บันทึกข้อมูล</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
