@@ -1,14 +1,17 @@
-# ไฟล์ .gitignore
+# .gitignore
 
-# 1. ไม่เก็บ Database (สำคัญมาก!)
-db.sqlite3
-
-# 2. ไม่เก็บรูปภาพที่อัปโหลด (สำคัญมาก!)
-media/
-
-# 3. ไม่เก็บไฟล์ขยะของ Python
+# 1. ไม่เอาไฟล์ขยะ Python (ตัวต้นเหตุปัญหา)
 __pycache__/
 *.py[cod]
 *$py.class
-myenv/
+
+# 2. ไม่เอา Database (เพราะเราใช้คนละตัวกับ Server)
+db.sqlite3
+
+# 3. ไม่เอารูปที่อัปโหลด
+media/
+
+# 4. อื่นๆ
 .env
+myenv/
+venv/
