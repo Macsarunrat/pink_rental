@@ -9,9 +9,8 @@ def dashboard(request):
     today = timezone.now().date()
     
     # 1. คิววันนี้และเร็วๆ นี้ (Calendar View แบบง่าย)
-    upcoming_rentals = Rental.objects.filter(
-        start_date__gte=today
-    ).order_by('start_date')
+    # แบบที่ 2: เรียงตามวันที่ (งานด่วนอยู่บน) แต่ซ่อนคนคืนแล้ว
+    upcoming_rentals = Rental.objects.exclude(status='RETURNED').order_by('start_date')
 
     # 2. คำนวณรายได้
     # รายได้สัปดาห์นี้
