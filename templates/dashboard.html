@@ -42,24 +42,18 @@
               </span>
             </td>
             <td>
-              {% if rental.status == 'BOOKED' %}
-              <a
-                href="{% url 'update_rental_status' rental.id 'ACTIVE' %}"
-                class="btn btn-sm btn-outline-info rounded-pill"
-                >รับชุดไปแล้ว</a
-              >
-              {% elif rental.status == 'ACTIVE' %}
-              <a
-                href="{% url 'update_rental_status' rental.id 'RETURNED' %}"
-                class="btn btn-sm btn-outline-success rounded-pill"
-                >คืนชุดแล้ว</a
-              >
-              {% else %}
-              <span class="text-muted small"
-                ><i class="bi bi-check-circle"></i> เสร็จสิ้น</span
-              >
-              {% endif %}
-            </td>
+    {% if rental.status == 'BOOKED' %}
+        <a href="{% url 'update_rental_status' rental.id 'ACTIVE' %}" class="btn btn-sm btn-outline-info rounded-pill mb-1">รับชุด</a>
+    {% elif rental.status == 'ACTIVE' %}
+        <a href="{% url 'update_rental_status' rental.id 'RETURNED' %}" class="btn btn-sm btn-outline-success rounded-pill mb-1">คืนชุด</a>
+    {% endif %}
+
+    <a href="{% url 'delete_rental' rental.id %}" 
+       class="btn btn-sm btn-outline-danger rounded-pill mb-1"
+       onclick="return confirm('ต้องการลบรายการจองของ {{ rental.customer.name }} ใช่หรือไม่?');">
+       <i class="bi bi-trash"></i>
+    </a>
+</td>
           </tr>
           {% empty %}
           <tr>

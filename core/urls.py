@@ -12,5 +12,6 @@ urlpatterns = [
     path('customers/add/', views.add_customer, name='add_customer'), # <--- เพิ่มบรรทัดนี้
     path('dresses/edit/<int:dress_id>/', views.edit_dress, name='edit_dress'),
     path('dresses/delete/<int:dress_id>/', views.delete_dress, name='delete_dress'),
+    path('rentals/delete/<int:rental_id>/', views.delete_rental, name='delete_rental'),
 
 ]

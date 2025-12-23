@@ -99,3 +99,14 @@ def delete_dress(request, dress_id):
     dress = get_object_or_404(Dress, id=dress_id)
     dress.delete()
     return redirect('dress_list')
+
+def delete_rental(request, rental_id):
+    rental = get_object_or_404(Rental, id=rental_id)
+    rental.delete() # ลบข้อมูลทิ้งทันที
+    
+    # เช็คว่ากดลบมาจากหน้าไหน? (ถ้ามาจากหน้าลูกค้า ให้กลับไปหน้าลูกค้า)
+    next_url = request.GET.get('next', 'dashboard')
+    if next_url != 'dashboard':
+        return redirect(next_url)
+    
+    return redirect('dashboard')
