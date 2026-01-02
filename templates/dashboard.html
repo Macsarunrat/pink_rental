@@ -32,7 +32,30 @@
           {% for rental in upcoming_rentals %}
           <tr>
               <td>{{ rental.start_date|date:"d M" }} - {{ rental.end_date|date:"d M" }}</td>
-            <td>{{ rental.dress.name }}</td>
+            <td>
+    <div class="fw-bold">{{ rental.dress.name }}</div>
+    
+    {% if rental.accessories.all %}
+        <div class="mt-2 p-2 bg-light rounded border border-white">
+            <small class="text-secondary d-block mb-1" style="font-size: 0.75rem;">
+                <i class="bi bi-gift-fill text-danger"></i> ของแถม:
+            </small>
+            
+            <div class="d-flex flex-wrap gap-1">
+                {% for acc in rental.accessories.all %}
+                    {% if acc.image %}
+                        <img src="{{ acc.image.url }}" 
+                             class="rounded-circle border" 
+                             style="width: 35px; height: 35px; object-fit: cover;"
+                             data-bs-toggle="tooltip" 
+                             title="{{ acc.name }}"> {% else %}
+                        <span class="badge bg-secondary rounded-pill">{{ acc.name }}</span>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+    </td>
             <td>{{ rental.customer.name }}</td>
             <td>
               <span
@@ -101,4 +124,13 @@
     </div>
   </div>
 </div>
+<script>
+    // สั่งเปิดใช้งาน Tooltip ของ Bootstrap
+    document.addEventListener("DOMContentLoaded", function(){
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    });
+</script>
 {% endblock %}

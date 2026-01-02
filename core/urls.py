@@ -20,4 +20,12 @@ urlpatterns = [
 
     # ✅ เพิ่มบรรทัดนี้สำหรับ Logout (กดแล้วเด้งกลับหน้าแรก)
     path('logout/', auth_views.LogoutView.as_view(next_page='landing_page'), name='logout'),
+    path('accessories/', views.accessory_list, name='accessory_list'),
+    path('accessories/add/', views.add_accessory, name='add_accessory'),
+    path('accessories/delete/<int:acc_id>/', views.delete_accessory, name='delete_accessory'),
+    # เพิ่มต่อท้ายใน urlpatterns
+    path('customer/login/', views.customer_login, name='customer_login'),
+    path('customer/portal/', views.customer_portal, name='customer_portal'),
+    path('customer/select/<int:rental_id>/', views.customer_select_accessories, name='customer_select_accessories'),
+    path('customer/logout/', views.customer_logout, name='customer_logout'),
 ]

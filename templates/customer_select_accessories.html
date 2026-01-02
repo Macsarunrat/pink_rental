@@ -1,0 +1,155 @@
+{% extends 'base.html' %} {% block content %}
+<div class="text-center mb-4">
+  <h4>
+    เลือกเครื่องประดับสำหรับ:
+    <span class="text-primary">{{ rental.dress.name }}</span>
+  </h4>
+  <p class="text-muted">เลือกได้สูงสุด 2 ชิ้น (ฟรี!)</p>
+</div>
+
+<form method="post">
+  {% csrf_token %}
+
+  <div class="row g-2">
+    {% for acc in accessories %} {% if acc.id in booked_acc_ids %}
+    <div class="col-6 col-md-3">
+      <div
+        class="card h-100 p-2 text-center bg-light border-0 opacity-50 position-relative"
+      >
+        <div
+          class="position-absolute top-50 start-50 translate-middle w-100"
+          style="z-index: 2"
+        >
+          <span class="badge bg-danger fs-6 shadow">🚫 คิวเต็ม</span>
+          <div class="text-dark small mt-1 bg-white rounded px-1 fw-bold">
+            (ไม่ว่างช่วงวันที่เช่า)
+          </div>
+        </div>
+
+        {% if acc.image %}
+        <img
+          src="{{ acc.image.url }}"
+          class="rounded mb-2 w-100"
+          style="height: 100px; object-fit: cover; filter: grayscale(100%)"
+        />
+        {% else %}
+        <div
+          class="bg-secondary rounded mb-2 d-flex align-items-center justify-content-center text-white"
+          style="height: 100px"
+        >
+          💎
+        </div>
+        {% endif %}
+        <small class="text-muted text-decoration-line-through"
+          >{{ acc.name }}</small
+        >
+      </div>
+    </div>
+
+    {% else %}
+    <div class="col-6 col-md-3">
+      <input
+        type="checkbox"
+        name="accessories"
+        value="{{ acc.id }}"
+        id="acc_{{ acc.id }}"
+        class="acc-checkbox d-none"
+        {%
+        if
+        acc
+        in
+        rental.accessories.all
+        %}checked{%
+        endif
+        %}
+      />
+
+      <label
+        for="acc_{{ acc.id }}"
+        class="card h-100 p-2 text-center acc-card position-relative border-2"
+      >
+        <div
+          class="check-mark position-absolute top-0 end-0 m-1"
+          style="display: none"
+        >
+          <i class="bi bi-check-circle-fill text-success fs-4"></i>
+        </div>
+
+        {% if acc.image %}
+        <img
+          src="{{ acc.image.url }}"
+          class="rounded mb-2 w-100"
+          style="height: 100px; object-fit: cover"
+        />
+        {% else %}
+        <div
+          class="bg-light rounded mb-2 d-flex align-items-center justify-content-center"
+          style="height: 100px"
+        >
+          💎
+        </div>
+        {% endif %}
+        <small class="fw-bold">{{ acc.name }}</small>
+      </label>
+    </div>
+    {% endif %} {% endfor %}
+  </div>
+
+  <div class="fixed-bottom p-3 bg-white border-top shadow text-center">
+    <span id="count-display" class="me-3 fw-bold text-primary"
+      >เลือกแล้ว 0/2 ชิ้น</span
+    >
+    <button type="submit" class="btn btn-success rounded-pill px-5 fw-bold">
+      บันทึกการเลือก ✅
+    </button>
+  </div>
+</form>
+
+<style>
+  /* CSS สำหรับการเลือก (เหมือนเดิม) */
+  .acc-checkbox:checked + .acc-card {
+    border-color: #ff69b4;
+    background-color: #fff0f5;
+  }
+  .acc-checkbox:checked + .acc-card .check-mark {
+    display: block;
+  }
+
+  /* ตอนของหมดโควต้า ให้ตัวที่ไม่ได้เลือกดูจางๆ */
+  .acc-card.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+</style>
+
+<script>
+  // JavaScript จำกัดจำนวน 2 ชิ้น
+  const checkboxes = document.querySelectorAll(".acc-checkbox");
+  const maxAllowed = 2;
+  const countDisplay = document.getElementById("count-display");
+
+  function updateCount() {
+    let checkedCount = document.querySelectorAll(
+      ".acc-checkbox:checked"
+    ).length;
+    countDisplay.textContent = `เลือกแล้ว ${checkedCount}/${maxAllowed} ชิ้น`;
+
+    // ถ้าครบ 2 แล้ว ให้ปิดการกดตัวอื่นที่เหลือ
+    checkboxes.forEach((box) => {
+      if (!box.checked) {
+        if (checkedCount >= maxAllowed) {
+          box.disabled = true;
+          box.nextElementSibling.classList.add("disabled");
+        } else {
+          box.disabled = false;
+          box.nextElementSibling.classList.remove("disabled");
+        }
+      }
+    });
+  }
+
+  checkboxes.forEach((box) => box.addEventListener("change", updateCount));
+  updateCount(); // รันครั้งแรกเผื่อมีของเก่า
+</script>
+<br /><br /><br />
+{% endblock %}

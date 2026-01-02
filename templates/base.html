@@ -99,7 +99,17 @@
           >
             {% if user.is_authenticated %}
             <li class="nav-item">
+              <a class="nav-link fw-bold text-primary" href="#"
+                >👑 Admin Mode</a
+              >
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="{% url 'dashboard' %}">หน้าหลัก</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'accessory_list' %}"
+                >เครื่องประดับ</a
+              >
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'dress_list' %}">สต็อกชุด</a>
@@ -109,31 +119,52 @@
             </li>
             <li class="nav-item">
               <a
-                class="nav-link btn btn-light text-primary ms-lg-2 mt-2 mt-lg-0 px-3 rounded-pill"
+                class="nav-link btn btn-light text-primary ms-lg-2 mt-2 mt-lg-0 px-3 rounded-pill fw-bold"
                 href="{% url 'add_rental' %}"
-                >+ เช่าใหม่</a
               >
+                + เช่าใหม่
+              </a>
             </li>
-
-            <li class="nav-item ms-lg-3 mt-3 mt-lg-0">
+            <li class="nav-item">
               <form action="{% url 'logout' %}" method="post" class="d-inline">
                 {% csrf_token %}
                 <button
                   type="submit"
-                  class="btn btn-outline-light btn-sm rounded-pill px-3"
-                  onclick="return confirm('ต้องการออกจากระบบ?');"
+                  class="btn btn-outline-danger btn-sm rounded-pill ms-2"
                 >
-                  <i class="bi bi-box-arrow-right"></i> ออก
+                  ออก
                 </button>
               </form>
             </li>
+
+            {% elif request.session.customer_id %}
+            <li class="nav-item">
+              <span class="nav-link text-primary fw-bold"
+                >ยินดีต้อนรับคุณลูกค้า 💖</span
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'customer_portal' %}"
+                >รายการเช่าของฉัน</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link btn btn-outline-danger rounded-pill px-3 ms-2 btn-sm"
+                href="{% url 'customer_logout' %}"
+                >ออกจากระบบ</a
+              >
+            </li>
+
             {% else %}
             <li class="nav-item">
               <a
-                class="nav-link btn btn-outline-light rounded-pill px-4 ms-lg-2"
-                href="{% url 'login' %}"
-                >เข้าสู่ระบบ</a
+                class="nav-link"
+                href="https://www.instagram.com/zm.fashiongirlswrp/"
+                target="_blank"
               >
+                <i class="bi bi-instagram"></i> ติดต่อเรา
+              </a>
             </li>
             {% endif %}
           </ul>

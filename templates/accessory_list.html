@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="text-primary">💎 สต็อกเครื่องประดับ</h2>
+    <a href="{% url 'add_accessory' %}" class="btn btn-primary rounded-pill">+ เพิ่มใหม่</a>
+</div>
+
+<div class="row g-3">
+    {% for acc in accessories %}
+    <div class="col-6 col-md-3 col-lg-2">
+        <div class="card h-100 shadow-sm border-0 position-relative text-center p-2">
+            <a href="{% url 'delete_accessory' acc.id %}" 
+               class="position-absolute top-0 end-0 m-1 btn btn-sm btn-danger rounded-circle"
+               style="width: 24px; height: 24px; padding: 0; line-height: 24px;"
+               onclick="return confirm('ลบ {{ acc.name }} จริงหรอ?');">×</a>
+            
+            {% if acc.image %}
+                <img src="{{ acc.image.url }}" class="rounded mb-2" style="width: 100%; height: 80px; object-fit: cover;">
+            {% else %}
+                <div class="bg-light rounded mb-2 d-flex align-items-center justify-content-center" style="height: 80px;">❌No Pic</div>
+            {% endif %}
+            <small class="fw-bold">{{ acc.name }}</small>
+        </div>
+    </div>
+    {% empty %}
+        <p class="text-muted text-center">ยังไม่มีเครื่องประดับ</p>
+    {% endfor %}
+</div>
+{% endblock %}

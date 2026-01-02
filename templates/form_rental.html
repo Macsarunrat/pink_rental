@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+  /* CSS สำหรับเลือกเครื่องประดับแบบรูปภาพ */
+  .acc-checkbox { display: none; }
+  .acc-card {
+    cursor: pointer;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    transition: all 0.2s;
+    opacity: 0.7;
+  }
+  .acc-card:hover { transform: translateY(-3px); }
+  .acc-checkbox:checked + .acc-card {
+    border-color: #ff69b4;
+    background-color: #fff0f5;
+    opacity: 1;
+    box-shadow: 0 4px 10px rgba(255, 105, 180, 0.3);
+  }
+  .check-mark { display: none; }
+  .acc-checkbox:checked + .acc-card .check-mark { display: block; }
+</style>
+
+<div class="card shadow border-0 p-4">
+  <h3 class="mb-4 text-primary">📝 บันทึกการเช่าชุด + แถมเครื่องประดับ</h3>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {% if form.errors %}
+        <div class="alert alert-danger">
+            <strong>บันทึกไม่ได้! กรุณาตรวจสอบ:</strong>
+            {{ form.errors }}
+        </div>
+    {% endif %}
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">ลูกค้า</label>
+        <div class="input-group">
+            {{ form.customer }}
+            
+            <a href="{% url 'add_customer' %}" class="btn btn-outline-primary" target="_blank">
+                <i class="bi bi-person-plus-fill"></i> ใหม่
+            </a>
+        </div>
+        <div class="form-text text-muted small">*เลือกชื่อ (ถ้าไม่มีให้กดปุ่ม 'ใหม่')</div>
+      </div>
+      
+      <div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">ชุดที่เช่า</label>
+        {{ form.dress }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">วันรับชุด</label>
+        {{ form.start_date }}
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">วันคืนชุด</label>
+        {{ form.end_date }}
+      </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label class="form-label fw-bold">ราคาพิเศษ (บาท)</label>
+            {{ form.price_override }}
+            <div class="form-text text-muted small">ใส่เฉพาะเมื่อต้องการเปลี่ยนราคา (ถ้าไม่ใส่จะใช้ราคาปกติ)</div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label class="form-label fw-bold">หมายเหตุ</label>
+            {{ form.note }}
+        </div>
+    </div>
+
+    <hr class="my-4 text-muted" />
+
+    <label class="form-label fw-bold mb-3 d-block">💎 เลือกเครื่องประดับของแถม (คลิกที่รูปได้เลย)</label>
+
+    <div class="row g-2" style="max-height: 400px; overflow-y: auto;">
+      {% for acc in accessories %}
+      <div class="col-4 col-sm-3 col-md-2">
+        <input type="checkbox" name="accessories" value="{{ acc.id }}" id="acc_{{ acc.id }}" class="acc-checkbox"/>
+
+        <label for="acc_{{ acc.id }}" class="card h-100 p-2 text-center acc-card position-relative">
+          <div class="check-mark position-absolute top-0 end-0 m-1">
+            <i class="bi bi-check-circle-fill text-success fs-5"></i>
+          </div>
+
+          {% if acc.image %}
+          <img src="{{ acc.image.url }}" class="rounded mb-1" style="width: 100%; height: 60px; object-fit: cover"/>
+          {% else %}
+          <div class="bg-light rounded mb-1 d-flex align-items-center justify-content-center" style="height: 60px">💎</div>
+          {% endif %}
+
+          <small style="font-size: 0.75rem">{{ acc.name }}</small>
+        </label>
+      </div>
+      {% endfor %}
+    </div>
+
+    <hr class="my-4" />
+
+    <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-bold">
+      บันทึกการเช่า
+    </button>
+  </form>
+</div>
+{% endblock %}

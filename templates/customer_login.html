@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-5">
+        <div class="card shadow-lg border-0 rounded-4">
+            <div class="card-body p-5 text-center">
+                <h2 class="text-primary mb-3">👗 สำหรับลูกค้าเช่าชุด</h2>
+                <p class="text-muted">กรอกเบอร์โทรศัพท์เพื่อเข้าไปเลือกเครื่องประดับ</p>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    {% if error %}
+                        <div class="alert alert-danger rounded-pill">{{ error }}</div>
+                    {% endif %}
+                    
+                    <div class="mb-4">
+                        <input type="text" name="phone" class="form-control form-control-lg rounded-pill text-center" 
+                               placeholder="เบอร์โทรศัพท์ที่แจ้งร้านไว้..." required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-bold">
+                        เข้าสู่ระบบลูกค้า
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

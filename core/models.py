@@ -9,7 +9,7 @@ class Customer(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.name
+        return f"{self.name} ({self.phone})"
 
 class Dress(models.Model):
     name = models.CharField(max_length=100, verbose_name="ชื่อชุด")
@@ -29,6 +29,15 @@ class Dress(models.Model):
     def profit(self):
         # กำไร = รายได้รวม - ต้นทุน
         return self.total_revenue() - self.cost_price
+    
+
+class Accessory(models.Model):
+    name = models.CharField(max_length=100, verbose_name="ชื่อเครื่องประดับ")
+    image = models.ImageField(upload_to='accessories/', verbose_name="รูปภาพ", blank=True, null=True) # ✅ ต้องมีรูป
+    
+    def __str__(self):
+        return self.name
+    
 
 class Rental(models.Model):
     STATUS_CHOICES = [
@@ -38,11 +47,16 @@ class Rental(models.Model):
     ]
 
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, verbose_name="ลูกค้า")
+    # ✅ เชื่อมโยงแบบเลือกได้หลายชิ้น (Many-to-Many)
+    accessories = models.ManyToManyField(Accessory, blank=True, verbose_name="เครื่องประดับที่แถม")
     dress = models.ForeignKey(Dress, on_delete=models.CASCADE, verbose_name="ชุดที่เช่า")
     start_date = models.DateField(verbose_name="วันที่ยืม")
     end_date = models.DateField(verbose_name="วันที่คืน")
     total_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="ราคารวมรอบนี้")
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='BOOKED', verbose_name="สถานะ")
+    # ✅ เพิ่ม 2 บรรทัดนี้ครับ
+    price_override = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, verbose_name="ราคาพิเศษ (ถ้ามี)")
+    deposit = models.DecimalField(max_digits=10, decimal_places=2, default=0, blank=True, verbose_name="ค่ามัดจำ")
     note = models.TextField(blank=True, null=True, verbose_name="หมายเหตุ")
 
     def save(self, *args, **kwargs):
@@ -55,3 +69,5 @@ class Rental(models.Model):
 
     def __str__(self):
         return f"{self.customer.name} - {self.dress.name}"
+    
+
