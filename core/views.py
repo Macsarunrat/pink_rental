@@ -288,3 +288,30 @@ def customer_logout(request):
     if 'customer_id' in request.session:
         del request.session['customer_id']
     return redirect('landing_page')
+
+
+# core/views.py
+
+@login_required
+def edit_customer(request, customer_id):
+    # ดึงข้อมูลลูกค้าคนเก่าออกมา
+    customer = get_object_or_404(Customer, id=customer_id)
+    
+    if request.method == "POST":
+        # รับค่าใหม่มาทับของเดิม (instance=customer)
+        form = CustomerForm(request.POST, instance=customer)
+        if form.is_valid():
+            form.save()
+            return redirect('customer_list') # แก้เสร็จกลับไปหน้ารายชื่อ
+    else:
+        # เปิดฟอร์มพร้อมข้อมูลเดิม
+        form = CustomerForm(instance=customer)
+    
+    # ใช้ form.html ตัวเดิมได้เลย ประหยัดเวลา
+    return render(request, 'form.html', {'form': form, 'title': 'แก้ไขข้อมูลลูกค้า'})
+
+@login_required
+def delete_customer(request, customer_id):
+    customer = get_object_or_404(Customer, id=customer_id)
+    customer.delete()
+    return redirect('customer_list')

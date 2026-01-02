@@ -1,50 +1,62 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="card p-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="text-primary mb-0">👩‍🦰 รายชื่อลูกค้า</h2>
-        <a href="{% url 'add_customer' %}" class="btn btn-primary rounded-pill px-4 shadow-sm">
-            + เพิ่มลูกค้าใหม่
-        </a>
-    </div>
-    <div class="table-responsive">
-        <table class="table table-hover align-middle">
-    <div class="table-responsive">
-        <table class="table table-hover align-middle">
-            <thead class="table-light">
-                <tr>
-                    <th>ชื่อลูกค้า</th>
-                    <th>เบอร์โทร</th>
-                    <th>Line ID</th>
-                    <th>วันที่สมัคร</th>
-                    <th>จัดการ</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for customer in customers %}
-                <tr>
-                    <td class="fw-bold">{{ customer.name }}</td>
-                    <td>{{ customer.phone }}</td>
-                    <td>
-                        {% if customer.line_id %}
-                            <span class="badge bg-success"><i class="bi bi-line"></i> {{ customer.line_id }}</span>
-                        {% else %}
-                            -
-                        {% endif %}
-                    </td>
-                    <td>{{ customer.created_at|date:"d/m/Y" }}</td>
-                    <td>
-                        <a href="{% url 'customer_history' customer.id %}" class="btn btn-sm btn-outline-primary rounded-pill">
-                            ดูประวัติเช่า
-                        </a>
-                    </td>
-                </tr>
-                {% empty %}
-                <tr><td colspan="5" class="text-center">ยังไม่มีข้อมูลลูกค้า</td></tr>
-                {% endfor %}
-            </tbody>
-        </table>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="text-primary fw-bold">👭 รายชื่อลูกค้า</h2>
+    <a href="{% url 'add_customer' %}" class="btn btn-primary rounded-pill px-4">
+        <i class="bi bi-person-plus-fill"></i> เพิ่มลูกค้าใหม่
+    </a>
+</div>
+
+<div class="card border-0 shadow-sm rounded-4">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="ps-4 py-3">ชื่อ-นามสกุล</th>
+                        <th>เบอร์โทรศัพท์</th>
+                        <th>ประวัติการเช่า</th>
+                        <th class="text-end pe-4">จัดการ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for customer in customers %}
+                    <tr>
+                        <td class="ps-4 fw-bold text-dark">{{ customer.name }}</td>
+                        <td>
+                            <span class="badge bg-secondary-subtle text-dark rounded-pill px-3">
+                                <i class="bi bi-telephone"></i> {{ customer.phone }}
+                            </span>
+                        </td>
+                        <td>
+                            <a href="{% url 'customer_history' customer.id %}" class="btn btn-sm btn-outline-info rounded-pill">
+                                <i class="bi bi-clock-history"></i> ดูประวัติ
+                            </a>
+                        </td>
+                        <td class="text-end pe-4">
+                            <a href="{% url 'edit_customer' customer.id %}" class="btn btn-sm btn-warning rounded-pill me-1" title="แก้ไข">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                            
+                            <a href="{% url 'delete_customer' customer.id %}" 
+                               class="btn btn-sm btn-danger rounded-pill" 
+                               title="ลบ"
+                               onclick="return confirm('⚠️ ยืนยันการลบลูกค้าคนนี้? \n(ประวัติการเช่าทั้งหมดของเขาจะหายไปด้วยนะ!)');">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center py-5 text-muted">
+                            ยังไม่มีข้อมูลลูกค้าค่ะ
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 {% endblock %}

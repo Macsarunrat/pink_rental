@@ -28,4 +28,6 @@ urlpatterns = [
     path('customer/portal/', views.customer_portal, name='customer_portal'),
     path('customer/select/<int:rental_id>/', views.customer_select_accessories, name='customer_select_accessories'),
     path('customer/logout/', views.customer_logout, name='customer_logout'),
+    path('customers/edit/<int:customer_id>/', views.edit_customer, name='edit_customer'),
+    path('customers/delete/<int:customer_id>/', views.delete_customer, name='delete_customer'),
 ]
