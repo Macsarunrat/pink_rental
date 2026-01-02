@@ -69,6 +69,15 @@
       .stat-card:hover {
         transform: translateY(-5px);
       }
+      @media (max-width: 576px) {
+        .navbar-brand {
+          font-size: 1.1rem !important; /* ย่อลงหน่อย */
+          max-width: 70%; /* กันไม่ให้ยาวเกินจนไปทับปุ่มเมนู */
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis; /* ถ้าล้นจริงๆ ให้ขึ้น ... */
+        }
+      }
     </style>
   </head>
   <body>
