@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container text-center d-flex flex-column justify-content-center align-items-center" style="min-height: 70vh;">
+    
+    <div class="mb-4">
+        <div class="bg-white p-4 rounded-circle shadow-sm d-inline-block">
+            <span style="font-size: 4rem;">👗</span>
+        </div>
+    </div>
+
+    <h1 class="display-4 fw-bold text-primary mb-3">ZM.FashionGirlsWRP</h1>
+    <p class="lead text-muted mb-5">
+        ระบบจัดการร้านเช่าชุดออนไลน์<br>
+        <span class="small">เช็คสต็อก • จัดการลูกค้า • ดูแลคิวเช่า</span>
+    </p>
+
+    <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+        <a href="{% url 'login' %}" class="btn btn-primary btn-lg rounded-pill px-5 shadow-sm fw-bold">
+            <i class="bi bi-box-arrow-in-right"></i> เข้าสู่ระบบ (เจ้าของร้าน)
+        </a>
+    </div>
+
+    <div class="mt-5 text-muted small">
+        &copy; 2025 Pink Rental System. All rights reserved.
+    </div>
+
+</div>
+{% endblock %}

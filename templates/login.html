@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center align-items-center" style="min-height: 60vh;">
+    <div class="col-md-5 col-lg-4">
+        <div class="card shadow-lg border-0 rounded-4">
+            <div class="card-body p-5">
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold text-primary">🔐 เข้าสู่ระบบ</h2>
+                    <p class="text-muted small">สำหรับเจ้าของร้าน (Admin Only)</p>
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    {% if form.errors %}
+                        <div class="alert alert-danger py-2 small rounded-3 mb-3">
+                            <i class="bi bi-exclamation-circle"></i> ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง
+                        </div>
+                    {% endif %}
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">ชื่อผู้ใช้ (Username)</label>
+                        <input type="text" name="username" class="form-control rounded-pill bg-light" placeholder="กรอกชื่อผู้ใช้..." required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">รหัสผ่าน (Password)</label>
+                        <input type="password" name="password" class="form-control rounded-pill bg-light" placeholder="กรอกรหัสผ่าน..." required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-bold shadow-sm">
+                        เข้าสู่ระบบ
+                    </button>
+                    
+                    <input type="hidden" name="next" value="{{ request.GET.next }}">
+                </form>
+
+                <div class="text-center mt-4">
+                    <a href="{% url 'dress_list' %}" class="text-muted small text-decoration-none">← กลับไปหน้าแรก</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

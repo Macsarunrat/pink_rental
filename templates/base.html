@@ -1,89 +1,148 @@
 <!DOCTYPE html>
 <html lang="th">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pink Rental System</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
-    
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+
     <style>
-        :root {
-            --bs-primary: #ff69b4; /* Hot Pink */
-            --bs-body-bg: #fff0f5; /* Lavender Blush Background */
-            --bs-body-font-family: 'Kanit', sans-serif;
-        }
-        
-        body { background-color: var(--bs-body-bg); }
-        
-        .card {
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.15);
-        }
-        
-        .btn-primary {
-            background-color: var(--bs-primary);
-            border-color: var(--bs-primary);
-        }
-        
-        .btn-primary:hover {
-            background-color: #d14785;
-            border-color: #d14785;
-        }
+      :root {
+        --bs-primary: #ff69b4; /* Hot Pink */
+        --bs-body-bg: #fff0f5; /* Lavender Blush Background */
+        --bs-body-font-family: "Kanit", sans-serif;
+      }
 
-        .navbar {
-            background: linear-gradient(45deg, #ff69b4, #ffb6c1);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .navbar-brand, .nav-link {
-            color: white !important;
-            font-weight: 600;
-        }
-        
-        /* ปรับสีปุ่มเมนูบนมือถือให้เป็นสีขาว */
-        .navbar-toggler {
-            border-color: rgba(255,255,255,0.8) !important;
-        }
-        .navbar-toggler-icon {
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
-        }
+      body {
+        background-color: var(--bs-body-bg);
+      }
 
-        .stat-card {
-            transition: transform 0.3s;
-        }
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
+      .card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(255, 105, 180, 0.15);
+      }
+
+      .btn-primary {
+        background-color: var(--bs-primary);
+        border-color: var(--bs-primary);
+      }
+
+      .btn-primary:hover {
+        background-color: #d14785;
+        border-color: #d14785;
+      }
+
+      .navbar {
+        background: linear-gradient(45deg, #ff69b4, #ffb6c1);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .navbar-brand,
+      .nav-link {
+        color: white !important;
+        font-weight: 600;
+      }
+
+      /* ปรับสีปุ่มเมนูบนมือถือให้เป็นสีขาว */
+      .navbar-toggler {
+        border-color: rgba(255, 255, 255, 0.8) !important;
+      }
+      .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+      }
+
+      .stat-card {
+        transition: transform 0.3s;
+      }
+      .stat-card:hover {
+        transform: translateY(-5px);
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg mb-4 sticky-top">
+      <div class="container">
+        <a
+          class="navbar-brand"
+          href="{% if user.is_authenticated %}{% url 'dashboard' %}{% else %}{% url 'landing_page' %}{% endif %}"
+        >
+          🎀 zm.fashiongirlswrp
+        </a>
 
-    <nav class="navbar navbar-expand-lg mb-4">
-        <div class="container">
-            <a class="navbar-brand" href="{% url 'dashboard' %}">🎀 zm.fashiongirlswrp</a>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto text-center mt-3 mt-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">หน้าหลัก</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'dress_list' %}">สต็อกชุด</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'customer_list' %}">ลูกค้า</a></li>
-                    <li class="nav-item"><a class="nav-link btn btn-light text-primary ms-lg-2 mt-2 mt-lg-0 px-3 rounded-pill" href="{% url 'add_rental' %}">+ เช่าใหม่</a></li>
-                </ul>
-            </div>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul
+            class="navbar-nav ms-auto text-center mt-3 mt-lg-0 align-items-center"
+          >
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'dashboard' %}">หน้าหลัก</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'dress_list' %}">สต็อกชุด</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'customer_list' %}">ลูกค้า</a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link btn btn-light text-primary ms-lg-2 mt-2 mt-lg-0 px-3 rounded-pill"
+                href="{% url 'add_rental' %}"
+                >+ เช่าใหม่</a
+              >
+            </li>
+
+            <li class="nav-item ms-lg-3 mt-3 mt-lg-0">
+              <form action="{% url 'logout' %}" method="post" class="d-inline">
+                {% csrf_token %}
+                <button
+                  type="submit"
+                  class="btn btn-outline-light btn-sm rounded-pill px-3"
+                  onclick="return confirm('ต้องการออกจากระบบ?');"
+                >
+                  <i class="bi bi-box-arrow-right"></i> ออก
+                </button>
+              </form>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a
+                class="nav-link btn btn-outline-light rounded-pill px-4 ms-lg-2"
+                href="{% url 'login' %}"
+                >เข้าสู่ระบบ</a
+              >
+            </li>
+            {% endif %}
+          </ul>
         </div>
+      </div>
     </nav>
 
-    <div class="container pb-5">
-        {% block content %}{% endblock %}
-    </div>
+    <div class="container pb-5">{% block content %}{% endblock %}</div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-</body>
+  </body>
 </html>

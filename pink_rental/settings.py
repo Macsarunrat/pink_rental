@@ -130,3 +130,13 @@ STATIC_URL = 'static/'
 ALLOWED_HOSTS = ['*'] 
 # หรือใส่ชื่อเว็บเราตอนหลัง เช่น ['teerental.pythonanywhere.com']
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+
+# 1. ถ้ายังไม่ Login ให้เด้งมาที่หน้านี้ (แทนหน้า Admin เดิม)
+LOGIN_URL = 'login'
+
+# 2. ถ้า Login สำเร็จ ให้เด้งไปหน้านี้
+LOGIN_REDIRECT_URL = 'dashboard'
+
+# 3. ถ้า Logout เสร็จ ให้เด้งไปหน้านี้
+LOGOUT_REDIRECT_URL = 'dress_list'

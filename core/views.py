@@ -32,6 +32,7 @@ def dashboard(request):
     }
     return render(request, 'dashboard.html', context)
 
+
 def dress_list(request):
     dresses = Dress.objects.all()
     return render(request, 'dress_list.html', {'dresses': dresses})
@@ -109,3 +110,11 @@ def delete_rental(request, rental_id):
         return redirect(next_url)
     
     return redirect('dashboard')
+
+
+# 1. เพิ่มฟังก์ชัน Landing Page (ไว้ล่างสุดก็ได้ หรือบนสุดก็ได้)
+def landing_page(request):
+    # ถ้า Login อยู่แล้ว ให้เด้งไป Dashboard เลย (ไม่ต้องเจอหน้า Landing ซ้ำ)
+    if request.user.is_authenticated:
+        return redirect('dashboard')
+    return render(request, 'landing_page.html')

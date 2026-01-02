@@ -1,8 +1,9 @@
 from django.urls import path
 from . import views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    path('', views.dashboard, name='dashboard'),
+    path('', views.landing_page, name='landing_page'),
     path('dresses/', views.dress_list, name='dress_list'),
     path('dresses/add/', views.add_dress, name='add_dress'),
     path('rentals/add/', views.add_rental, name='add_rental'),
@@ -13,5 +14,10 @@ urlpatterns = [
     path('dresses/edit/<int:dress_id>/', views.edit_dress, name='edit_dress'),
     path('dresses/delete/<int:dress_id>/', views.delete_dress, name='delete_dress'),
     path('rentals/delete/<int:rental_id>/', views.delete_rental, name='delete_rental'),
+    path('dashboard/', views.dashboard, name='dashboard'),
+    # ✅ เพิ่มบรรทัดนี้สำหรับ Login (ชี้ไปที่ไฟล์ html ที่เราเพิ่งสร้าง)
+    path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
 
+    # ✅ เพิ่มบรรทัดนี้สำหรับ Logout (กดแล้วเด้งกลับหน้าแรก)
+    path('logout/', auth_views.LogoutView.as_view(next_page='landing_page'), name='logout'),
 ]
