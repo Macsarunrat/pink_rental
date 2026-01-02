@@ -1,182 +1,246 @@
-{% extends 'base.html' %}
-
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 <style>
-    /* พื้นหลัง Gradient เคลื่อนไหวได้ */
-    .animated-bg {
-        background: linear-gradient(-45deg, #fff0f5, #ffe4e1, #fff5f8, #f0f8ff);
-        background-size: 400% 400%;
-        animation: gradientBG 15s ease infinite;
-        min-height: 100vh;
-        border-radius: 0 0 30px 30px;
-        position: relative;
-        overflow: hidden;
-    }
+  /* พื้นหลัง Gradient เคลื่อนไหวได้ */
+  .animated-bg {
+    background: linear-gradient(-45deg, #fff0f5, #ffe4e1, #fff5f8, #f0f8ff);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    min-height: 100vh;
+    border-radius: 0 0 30px 30px;
+    position: relative;
+    overflow: hidden;
+  }
 
-    @keyframes gradientBG {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
+  @keyframes gradientBG {
+    0% {
+      background-position: 0% 50%;
     }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
 
-    /* การ์ด Login ลอยเด่น */
-    .login-card {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.5);
-        box-shadow: 0 20px 40px rgba(255, 105, 180, 0.15);
-        transition: transform 0.3s;
-    }
-    .login-card:hover {
-        transform: translateY(-5px);
-    }
+  /* การ์ด Login ลอยเด่น */
+  .login-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 20px 40px rgba(255, 105, 180, 0.15);
+    transition: transform 0.3s;
+  }
+  .login-card:hover {
+    transform: translateY(-5px);
+  }
 
-    .carousel-item {
-        background-color: #fff0f5; /* ใส่สีพื้นหลังให้กล่อง (เวลาภาพไม่เต็มจะได้ไม่โหว่) */
-        border-radius: 20px;
-        overflow: hidden;
-    }
+  .carousel-item {
+    background-color: #fff0f5; /* ใส่สีพื้นหลังให้กล่อง (เวลาภาพไม่เต็มจะได้ไม่โหว่) */
+    border-radius: 20px;
+    overflow: hidden;
+  }
 
+  .carousel-item img {
+    height: 550px; /* 1. เพิ่มความสูง (จากเดิม 400) ให้เหมาะกับรูปแนวตั้ง */
+    object-fit: contain; /* 2. เปลี่ยนเป็น contain (ห้ามตัดภาพ! ให้ย่อรูปมาวางให้พอดี) */
+    width: 100%; /* ให้กว้างเต็มพื้นที่ */
+    margin: 0 auto; /* จัดกึ่งกลาง */
+  }
+
+  /* Responsive มือถือ: ปรับความสูงให้พอดีจอโทรศัพท์ */
+  @media (max-width: 768px) {
     .carousel-item img {
-        height: 550px;       /* 1. เพิ่มความสูง (จากเดิม 400) ให้เหมาะกับรูปแนวตั้ง */
-        object-fit: contain; /* 2. เปลี่ยนเป็น contain (ห้ามตัดภาพ! ให้ย่อรูปมาวางให้พอดี) */
-        width: 100%;         /* ให้กว้างเต็มพื้นที่ */
-        margin: 0 auto;      /* จัดกึ่งกลาง */
+      height: 450px; /* มือถือเอาแค่ 450px ก็สูงพอแล้ว */
     }
-    
-    /* Responsive มือถือ: ปรับความสูงให้พอดีจอโทรศัพท์ */
-    @media (max-width: 768px) {
-        .carousel-item img {
-            height: 450px; /* มือถือเอาแค่ 450px ก็สูงพอแล้ว */
-        }
-    }
+  }
 
-    /* ไอคอนขั้นตอน */
-    .step-icon {
-        width: 70px;
-        height: 70px;
-        background: white;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 2rem;
-        color: #ff69b4;
-        box-shadow: 0 5px 15px rgba(255, 105, 180, 0.2);
-        margin: 0 auto 15px;
-    }
+  /* ไอคอนขั้นตอน */
+  .step-icon {
+    width: 70px;
+    height: 70px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: #ff69b4;
+    box-shadow: 0 5px 15px rgba(255, 105, 180, 0.2);
+    margin: 0 auto 15px;
+  }
 </style>
 
 <div class="animated-bg pb-5">
-    <div class="container pt-5">
-        
-        <div class="row align-items-center">
-            
-            <div class="col-lg-6 mb-5 mb-lg-0 text-center text-lg-start">
-                <div class="mb-3 d-inline-block bg-white px-3 py-1 rounded-pill shadow-sm text-primary small fw-bold">
-                    ✨ ZM.FashionGirlsWRP
-                </div>
-                
-                <h1 class="fw-bold text-dark mb-3" style="font-size: clamp(2rem, 5vw, 4rem); line-height: 1.2;">
-                    สวยครบจบในที่เดียว<br>
-                    <span class="text-primary">เช่าชุดแบรนด์ คาเฟ่ ดินเนอร์</span>
-                </h1>
-                
-                <p class="lead text-muted mb-4">
-                    บริการเช่าชุดพร้อมเครื่องประดับฟรี 
-                    เช็คคิวว่างและเลือกของแถมได้ด้วยตัวเองทันที
-                    
-                </p>
-                
+  <div class="container pt-5">
+    <div class="row align-items-center">
+      <div class="col-lg-6 mb-5 mb-lg-0 text-center text-lg-start">
+        <div
+          class="mb-3 d-inline-block bg-white px-3 py-1 rounded-pill shadow-sm text-primary small fw-bold"
+        >
+          ✨ ZM.FashionGirlsWRP
+        </div>
 
-                <div class="login-card p-4 rounded-4" style="max-width: 450px; margin: 0 auto 0 0;">
-                    <h5 class="fw-bold mb-3">🔎 ลูกค้าเช็คสถานะ / เลือกของแถม</h5>
-                    <form method="post" action="{% url 'customer_login' %}">
-                        {% csrf_token %}
-                        <div class="input-group mb-3">
-                            <span class="input-group-text bg-light border-end-0 rounded-start-pill ps-3">
-                                <i class="bi bi-telephone-fill text-muted"></i>
-                            </span>
-                            <input type="tel" name="phone" class="form-control form-control-lg border-start-0 rounded-end-pill bg-light" 
-                                   placeholder="เบอร์โทรศัพท์..." required autocomplete="tel">
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100 btn-lg rounded-pill fw-bold shadow">
-                            เข้าสู่ระบบ <i class="bi bi-arrow-right-circle ms-1"></i>
-                        </button>
-                    </form>
-                    {% if request.GET.error %}
-                        <div class="mt-2 text-danger small"><i class="bi bi-exclamation-circle"></i> เบอร์โทรไม่ถูกต้อง</div>
-                    {% endif %}
-                </div>
+        <h1
+          class="fw-bold text-dark mb-3"
+          style="font-size: clamp(2rem, 5vw, 4rem); line-height: 1.2"
+        >
+          สวยครบจบในที่เดียว<br />
+          <span class="text-primary">เช่าชุดแบรนด์ คาเฟ่ ดินเนอร์</span>
+        </h1>
 
-                <div class="mt-4">
-                     <a href="https://www.instagram.com/zm.fashiongirlswrp/" target="_blank" class="btn btn-outline-danger rounded-pill btn-sm px-4">
-                        <i class="bi bi-instagram"></i> ติดตาม IG ร้าน
-                    </a>
-                </div>
+        <p class="lead text-muted mb-4">
+          บริการเช่าชุดพร้อมเครื่องประดับฟรี
+          เช็คคิวว่างและเลือกของแถมได้ด้วยตัวเองทันที
+        </p>
+
+        <div
+          class="login-card p-4 rounded-4"
+          style="max-width: 450px; margin: 0 auto 0 0"
+        >
+          <h5 class="fw-bold mb-3">🔎 ลูกค้าเช็คสถานะ / เลือกของแถม</h5>
+          <form method="post" action="{% url 'customer_login' %}">
+            {% csrf_token %}
+            <div class="input-group mb-3">
+              <span
+                class="input-group-text bg-light border-end-0 rounded-start-pill ps-3"
+              >
+                <i class="bi bi-telephone-fill text-muted"></i>
+              </span>
+              <input
+                type="tel"
+                name="phone"
+                class="form-control form-control-lg border-start-0 rounded-end-pill bg-light"
+                placeholder="เบอร์โทรศัพท์..."
+                required
+                autocomplete="tel"
+              />
             </div>
+            <button
+              type="submit"
+              class="btn btn-primary w-100 btn-lg rounded-pill fw-bold shadow"
+            >
+              เข้าสู่ระบบ <i class="bi bi-arrow-right-circle ms-1"></i>
+            </button>
+          </form>
+          {% if request.GET.error %}
+          <div class="mt-2 text-danger small">
+            <i class="bi bi-exclamation-circle"></i> เบอร์โทรไม่ถูกต้อง
+          </div>
+          {% endif %}
+        </div>
 
-            <div class="col-lg-6">
-                {% if latest_dresses %}
-                <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        {% for dress in latest_dresses %}
-                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                            <img src="{{ dress.image.url }}" class="d-block w-100" alt="{{ dress.name }}">
-                            <div class="carousel-caption d-none d-md-block p-2 rounded-3" style="background: rgba(0,0,0,0.5); bottom: 20px;">
-                                <h5 class="m-0 text-white">{{ dress.name }}</h5>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    </button>
-                </div>
-                {% else %}
-                    <div class="text-center py-5 bg-white rounded-4 shadow-sm">
-                        <span style="font-size: 5rem;">👗</span>
-                        <p class="text-muted">กำลังอัปเดตชุดสวยๆ...</p>
-                    </div>
-                {% endif %}
+        <div class="mt-4">
+          <a
+            href="https://www.instagram.com/zm.fashiongirlswrp/"
+            target="_blank"
+            class="btn btn-outline-danger rounded-pill btn-sm px-4"
+          >
+            <i class="bi bi-instagram"></i> ติดตาม IG ร้าน
+          </a>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        {% if latest_dresses %}
+        <div
+          id="heroCarousel"
+          class="carousel slide carousel-fade"
+          data-bs-ride="carousel"
+        >
+          <div class="carousel-inner">
+            {% for dress in latest_dresses %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+              <img
+                src="{{ dress.image.url }}"
+                class="d-block w-100"
+                alt="{{ dress.name }}"
+              />
+              <div
+                class="carousel-caption d-block p-2 rounded-3"
+                style="background: rgba(0, 0, 0, 0.5); bottom: 20px"
+              >
+                <h5
+                  class="m-0 text-white"
+                  style="font-size: clamp(0.9rem, 2vw, 1.25rem)"
+                >
+                  {{ dress.name }}
+                </h5>
+              </div>
             </div>
-
-        </div> </div>
+            {% endfor %}
+          </div>
+          <button
+            class="carousel-control-prev"
+            type="button"
+            data-bs-target="#heroCarousel"
+            data-bs-slide="prev"
+          >
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          </button>
+          <button
+            class="carousel-control-next"
+            type="button"
+            data-bs-target="#heroCarousel"
+            data-bs-slide="next"
+          >
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          </button>
+        </div>
+        {% else %}
+        <div class="text-center py-5 bg-white rounded-4 shadow-sm">
+          <span style="font-size: 5rem">👗</span>
+          <p class="text-muted">กำลังอัปเดตชุดสวยๆ...</p>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="container py-5">
-    <div class="text-center mb-5">
-        <h6 class="text-primary fw-bold text-uppercase ls-2">How it works</h6>
-        <h2 class="fw-bold">เช่าชุดง่ายๆ ใน 3 ขั้นตอน</h2>
-    </div>
+  <div class="text-center mb-5">
+    <h6 class="text-primary fw-bold text-uppercase ls-2">How it works</h6>
+    <h2 class="fw-bold">เช่าชุดง่ายๆ ใน 3 ขั้นตอน</h2>
+  </div>
 
-    <div class="row g-4 text-center">
-        <div class="col-md-4">
-            <div class="step-icon"><i class="bi bi-search"></i></div>
-            <h5 class="fw-bold">1. เลือกชุดที่ชอบ</h5>
-            <p class="text-muted small">เลือกดูชุดจาก IG หรือหน้าร้าน แจ้งพี่เจ้าของร้านเพื่อจองคิว</p>
-        </div>
-        <div class="col-md-4">
-            <div class="step-icon"><i class="bi bi-gem"></i></div>
-            <h5 class="fw-bold">2. เลือกเครื่องประดับ</h5>
-            <p class="text-muted small">ล็อกอินเข้าเว็บ เลือกเครื่องประดับที่ชอบได้ฟรี 2 ชิ้น (ระบบจะล็อคของให้ทันที)</p>
-        </div>
-        <div class="col-md-4">
-            <div class="step-icon"><i class="bi bi-stars"></i></div>
-            <h5 class="fw-bold">3. รับชุดสวยๆ</h5>
-            <p class="text-muted small">มารับชุดตามวันที่นัดหมาย ใส่สวยเฉิดฉายในงานได้เลย!</p>
-        </div>
+  <div class="row g-4 text-center">
+    <div class="col-md-4">
+      <div class="step-icon"><i class="bi bi-search"></i></div>
+      <h5 class="fw-bold">1. เลือกชุดที่ชอบ</h5>
+      <p class="text-muted small">
+        เลือกดูชุดจาก IG หรือหน้าร้าน แจ้งพี่เจ้าของร้านเพื่อจองคิว
+      </p>
     </div>
+    <div class="col-md-4">
+      <div class="step-icon"><i class="bi bi-gem"></i></div>
+      <h5 class="fw-bold">2. เลือกเครื่องประดับ</h5>
+      <p class="text-muted small">
+        ล็อกอินเข้าเว็บ เลือกเครื่องประดับที่ชอบได้ฟรี 2 ชิ้น
+        (ระบบจะล็อคของให้ทันที)
+      </p>
+    </div>
+    <div class="col-md-4">
+      <div class="step-icon"><i class="bi bi-stars"></i></div>
+      <h5 class="fw-bold">3. รับชุดสวยๆ</h5>
+      <p class="text-muted small">
+        มารับชุดตามวันที่นัดหมาย ใส่สวยเฉิดฉายในงานได้เลย!
+      </p>
+    </div>
+  </div>
 </div>
 
-<div class="text-center py-4 text-muted border-top bg-light" style="font-size: 0.8rem;">
-    &copy; 2026 ZM.FashionGirlsWRP
-    <a href="{% url 'login' %}" class="ms-2 text-decoration-none text-muted opacity-50 hover-opacity-100">
-        <i class="bi bi-shield-lock"></i> Staff Login
-    </a>
+<div
+  class="text-center py-4 text-muted border-top bg-light"
+  style="font-size: 0.8rem"
+>
+  &copy; 2026 ZM.FashionGirlsWRP
+  <a
+    href="{% url 'login' %}"
+    class="ms-2 text-decoration-none text-muted opacity-50 hover-opacity-100"
+  >
+    <i class="bi bi-shield-lock"></i> Staff Login
+  </a>
 </div>
 
 {% endblock %}
