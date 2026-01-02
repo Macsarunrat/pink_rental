@@ -182,7 +182,11 @@ def landing_page(request):
     if request.user.is_authenticated:
         return redirect('dashboard')
         
-    return render(request, 'landing_page.html')
+    latest_dresses = Dress.objects.filter(image__isnull=False).order_by('-id')[:5]
+
+    return render(request, 'landing_page.html', {
+        'latest_dresses': latest_dresses # ส่งไปหน้าเว็บ
+    })
 
 
 @login_required
