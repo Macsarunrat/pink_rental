@@ -11,28 +11,58 @@
 {% for rental in rentals %}
 <div class="card mb-3 shadow-sm border-0">
     <div class="card-body d-flex align-items-center justify-content-between">
-        <div>
-            <h5 class="fw-bold mb-1">👗 {{ rental.dress.name }}</h5>
-            <p class="text-muted small mb-2">รับชุด: {{ rental.start_date|date:"d M y" }}</p>
+        
+        <div class="d-flex align-items-center">
             
-            {% if rental.accessories.all %}
-                <div>
-                    <span class="badge bg-warning text-dark">เลือกแล้ว:</span>
-                    {% for acc in rental.accessories.all %}
-                        <small>{{ acc.name }}, </small>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <span class="badge bg-light text-muted">ยังไม่ได้เลือกเครื่องประดับ</span>
-            {% endif %}
+            <div class="me-3">
+                {% if rental.dress.image %}
+                    <img src="{{ rental.dress.image.url }}" 
+                         alt="{{ rental.dress.name }}" 
+                         class="rounded-3 border shadow-sm"
+                         style="width: 70px; height: 70px; object-fit: cover;">
+                {% else %}
+                    <div class="bg-light rounded-3 border d-flex align-items-center justify-content-center"
+                         style="width: 70px; height: 70px; font-size: 2rem;">
+                        👗
+                    </div>
+                {% endif %}
+            </div>
+
+            <div>
+                <h5 class="fw-bold mb-1">{{ rental.dress.name }}</h5>
+                <p class="text-muted small mb-2">
+                    <i class="bi bi-calendar-event"></i> รับชุด: {{ rental.start_date|date:"d M y" }}
+                </p>
+                
+                {% if rental.accessories.all %}
+                    <div>
+                        <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill">
+                            <i class="bi bi-check-circle-fill"></i> เลือกของแถมแล้ว:
+                        </span>
+                        <div class="small text-muted mt-1">
+                            {% for acc in rental.accessories.all %}
+                                • {{ acc.name }}<br>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% else %}
+                    <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 rounded-pill text-dark">
+                        ⚠ ยังไม่ได้เลือกเครื่องประดับ
+                    </span>
+                {% endif %}
+            </div>
         </div>
         
-        <a href="{% url 'customer_select_accessories' rental.id %}" class="btn btn-primary rounded-pill">
-            เลือกเครื่องประดับ 💎
+        <a href="{% url 'customer_select_accessories' rental.id %}" class="btn btn-primary rounded-pill shadow-sm ms-2">
+            เลือกเครื่องประดับ <i class="bi bi-arrow-right-short"></i>
         </a>
+
     </div>
 </div>
 {% empty %}
-    <p class="text-muted text-center mt-5">ไม่พบรายการเช่าที่กำลังดำเนินการค่ะ</p>
+    <div class="text-center py-5">
+        <span style="font-size: 3rem;">📭</span>
+        <p class="text-muted mt-3">ไม่พบรายการเช่าที่กำลังดำเนินการค่ะ</p>
+    </div>
 {% endfor %}
 {% endblock %}
