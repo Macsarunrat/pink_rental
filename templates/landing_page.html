@@ -69,10 +69,30 @@
     box-shadow: 0 5px 15px rgba(255, 105, 180, 0.2);
     margin: 0 auto 15px;
   }
+  .animated-bounce {
+    animation: bounce 2s infinite;
+    cursor: pointer;
+  }
+
+  @keyframes bounce {
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(-10px);
+    }
+    60% {
+      transform: translateY(-5px);
+    }
+  }
 </style>
 
 <div class="animated-bg pb-5">
-  <div class="container pt-5">
+  <div class="container pt-2 pt-lg-5">
     <div class="row align-items-center">
       <div class="col-lg-6 mb-5 mb-lg-0 text-center text-lg-start">
         <div
@@ -138,6 +158,14 @@
           >
             <i class="bi bi-instagram"></i> ติดตาม IG ร้าน
           </a>
+          <div class="mt-2 scroll-indicator">
+            <span class="text-muted small d-block mb-1"
+              >ดูชุดมาใหม่ & วิธีการเช่า</span
+            >
+            <i
+              class="bi bi-chevron-double-down text-primary fs-3 animated-bounce"
+            ></i>
+          </div>
         </div>
       </div>
 
